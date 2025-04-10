@@ -81,4 +81,15 @@ class User extends Authenticatable
             ->withPivot('role')
             ->first();
     }
+    
+    public function hasAdminRole(): bool
+    {
+        $school = $this->school(); // Call function school()
+        return $school && $school->pivot && $school->pivot->role === 'admin'; // return role 'admin'
+    }
+
+
+    
+
+
 }
