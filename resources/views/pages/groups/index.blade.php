@@ -26,7 +26,7 @@
             </select>
 
             
-            <form method="POST" action="{{ route('group.index') }}"> <!-- Ou la route que tu veux -->
+            <!-- <form method="GET" action="{{ route('group.index') }}">   --> 
             @csrf  <!-- Assure-toi d'inclure CSRF token si tu soumets un formulaire -->
 
             <label for="cohort_id">Sélectionner une promotion :</label>
@@ -39,7 +39,7 @@
             </select>
 
             <button type="submit">Envoyer</button>
-</form>
+            <!-- </form> --> 
 
 
 
