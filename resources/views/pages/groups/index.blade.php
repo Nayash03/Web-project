@@ -25,9 +25,29 @@
                 </option>
             </select>
 
+            
+            <form method="POST" action="{{ route('group.index') }}"> <!-- Ou la route que tu veux -->
+            @csrf  <!-- Assure-toi d'inclure CSRF token si tu soumets un formulaire -->
+
+            <label for="cohort_id">Sélectionner une promotion :</label>
+            <select name="cohort_id" id="cohort_id" class="form-control">
+                <option value="">-- Choisissez une promotion --</option>
+                
+                @foreach($cohorts as $cohort)
+                    <option value="{{ $cohort->id }}">{{ $cohort->name }}</option>
+                @endforeach
+            </select>
+
+            <button type="submit">Envoyer</button>
+</form>
 
 
-            <p>Mot réservé aux admins</p>
+
+
+
+
+            <p>Nombre d'étudiant par groupe :</p>
+
         @endif
 
 
