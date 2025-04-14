@@ -13,33 +13,26 @@
         
         @if(auth()->user()->hasAdminRole())
 
-            <select class="select" name="select">
-                <option value="1">
-                    Option 1
-                </option>
-                <option value="2">
-                    Option 2
-                </option>
-                <option value="3">
-                    Option 3
-                </option>
-            </select>
+             
+            <form method="POST" action="{{ route('group.generate') }}">
+                @csrf
 
-            
-            <!-- <form method="GET" action="{{ route('group.index') }}">   --> 
-            @csrf  <!-- Assure-toi d'inclure CSRF token si tu soumets un formulaire -->
+                <label for="cohort_id">Sélectionner une promotion :</label>
+                <select name="cohort_id" id="cohort_id" class="form-control" required>
+                    <option value="">-- Choisissez une promotion --</option>
+                    @foreach($cohorts as $cohort)
+                        <option value="{{ $cohort->id }}">{{ $cohort->name }}</option>
+                    @endforeach
+                </select>
 
-            <label for="cohort_id">Sélectionner une promotion :</label>
-            <select name="cohort_id" id="cohort_id" class="form-control">
-                <option value="">-- Choisissez une promotion --</option>
-                
-                @foreach($cohorts as $cohort)
-                    <option value="{{ $cohort->id }}">{{ $cohort->name }}</option>
-                @endforeach
-            </select>
+                <label for="group_size">Nombre de personnes par groupe :</label>
+                <input type="number" name="group_size" id="group_size" class="form-control" required min="1">
 
-            <button type="submit">Envoyer</button>
-            <!-- </form> --> 
+                <button type="submit">Générer les groupes</button>
+            </form>
+
+
+
 
 
 

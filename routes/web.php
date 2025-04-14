@@ -39,6 +39,8 @@ Route::middleware('auth')->group(function () {
 
         // Groups
         Route::get('groups', [GroupController::class, 'index'])->name('group.index');
+        Route::post('/groups/generate', [GroupController::class, 'generate'])->name('group.generate');
+
 
         // Retro
         route::get('retros', [RetroController::class, 'index'])->name('retro.index');

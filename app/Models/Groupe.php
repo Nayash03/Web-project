@@ -11,9 +11,14 @@ class Groupe extends Model
 
     protected $table = 'groupes'; 
 
+    protected $fillable = [
+        'cohort_id',
+        'name',
+    ];
+
     public function users()
     {
-        return $this->belongsToMany(User::class, 'users_groups');
+        return $this->belongsToMany(User::class, 'users_groups', 'group_id', 'user_id');
     }
 }
 
