@@ -10,6 +10,7 @@ use App\Http\Controllers\KnowledgeController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MistralController;
 
 // Redirect the root path to /dashboard
 Route::redirect('/', 'dashboard');
@@ -47,6 +48,10 @@ Route::middleware('auth')->group(function () {
 
         // Common life
         Route::get('common-life', [CommonLifeController::class, 'index'])->name('common-life.index');
+
+        Route::view('/mistral', 'pages.mistral.form'); // Modifier pour correspondre au dossier "pages/mistral"
+        Route::post('/mistral/ask', [MistralController::class, 'ask'])->name('mistral.ask');
+
     });
 
 });
