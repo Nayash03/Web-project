@@ -32,7 +32,12 @@ class RetroCardController extends Controller
         $card->retro_column_id = $request->input('column_id');
         $card->save();
 
-        return response()->json(['success' => true]);
+        return response()->json([
+            'success' => true,
+            'moved_to_column' => $card->retro_column_id,
+            'card_id' => $card->id,
+        ]);
     }
+
 
 }

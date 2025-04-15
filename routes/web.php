@@ -58,14 +58,9 @@ Route::middleware('auth')->group(function () {
         // Affichage du Kanban d’une rétro
         Route::get('retros/{retrospective}', [RetroController::class, 'show'])->name('retro.show');
 
-        
-
-       
-
         Route::post('/retros/{retro}/columns/{column}/cards', [RetroCardController::class, 'store'])->name('cards.store');
-        Route::post('/cards/{card}/move', [RetroCardController::class, 'move'])->name('cards.move');
 
-
+        Route::post('/cards/{cardId}/move', [RetroCardController::class, 'move'])->name('cards.move');
 
 
         // Common life
