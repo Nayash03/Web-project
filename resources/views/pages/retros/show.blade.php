@@ -4,48 +4,59 @@
     </x-slot>
 
     <div class="max-w-6xl mx-auto mt-6 bg-white shadow p-6 rounded-xl">
-
-        <!-- Liste des colonnes du Kanban -->
-        <div id="kanban-container" class="flex overflow-x-auto space-x-4">
-            @foreach($retro->columns as $column)
-                <div class="kanban-column bg-gray-100 p-4 rounded-lg w-1/4">
-                    <h2 class="font-semibold text-xl mb-4">{{ $column->name }}</h2>
-                    <div class="kanban-cards">
-                        @foreach($column->cards as $card)
-                            <div class="kanban-card bg-white p-4 mb-2 rounded shadow-md">
-                                <p>{{ $card->content }}</p>
-                            </div>
-                        @endforeach
-                    </div>
-                    <div class="kanban-card-input mt-4">
-                    <form action="{{ route('cards.store', ['retro' => $retro->id, 'column' => $column->id]) }}" method="POST">
-                        @csrf
-                        <input type="text" name="content" class="w-full p-2 rounded" placeholder="Ajouter une carte..." required>
-                        <button type="submit" class="mt-2 w-full bg-blue-600 text-white rounded py-2">Ajouter</button>
-                    </form>
-
-                    </div>
-                </div>
-            @endforeach
-        </div>
+        <!-- Conteneur Kanban -->
+        <div id="kanban-container" class="overflow-x-auto"></div>
     </div>
 
-    <!-- Intégration de la librairie KanbanJS -->
-    <script src="https://cdn.jsdelivr.net/npm/kanban-js@2.0.0/dist/kanban.min.js"></script>
+    <!-- CDN jKanban v1.2.0 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jkanban@1.2.0/dist/jkanban.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/jkanban@1.2.0/dist/jkanban.min.js"></script>
 
     <script>
-        // Code pour initialiser KanbanJS si tu veux l'utiliser dynamiquement
-        document.addEventListener("DOMContentLoaded", function() {
-            var kanban = new jKanban({
+        document.addEventListener("DOMContentLoaded", function () {
+            const kanban = new jKanban({
                 element: '#kanban-container',
+                gutter: '15px',
+                widthBoard: '300px',
+                dragBoards: false,
+
+                dropEl: function (el, target, source, sibling) {
+                    const cardId = el.dataset.id;
+                    const newColumnId = target.parentElement.dataset.id;
+
+                    fetch(`/cards/${cardId}/move`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({ column_id: newColumnId })
+                    })
+                    .then(res => res.json())
+                    .then(data => console.log("Carte déplacée :", data))
+                    .catch(err => console.error("Erreur :", err));
+                },
+
                 boards: [
                     @foreach($retro->columns as $column)
                     {
-                        'id': '{{ $column->id }}',
-                        'title': '{{ $column->name }}',
-                        'item': [
+                        id: '{{ $column->id }}',
+                        title: `<div>
+                                    <div class='font-semibold text-lg mb-2'>{{ $column->name }}</div>
+                                    <form action="{{ route('cards.store', ['retro' => $retro->id, 'column' => $column->id]) }}" method="POST">
+                                        @csrf
+                                        <input type="text" name="content" class="w-full p-2 border border-gray-300 rounded" placeholder="Ajouter une carte..." required />
+                                        <button type="submit" class="mt-2 w-full bg-blue-600 text-white rounded py-1 text-sm">Ajouter</button>
+                                    </form>
+                                </div>`,
+                        item: [
                             @foreach($column->cards as $card)
-                            { 'title': '{{ $card->content }}' },
+                            {
+                                id: '{{ $card->id }}',
+                                title: `<div class="p-3 bg-white rounded shadow" data-id="{{ $card->id }}">{{ $card->content }}</div>`,
+                                class: "cursor-move",
+                                dataset: { id: '{{ $card->id }}' }
+                            },
                             @endforeach
                         ]
                     },

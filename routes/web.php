@@ -47,7 +47,7 @@ Route::middleware('auth')->group(function () {
         // Retro
         route::get('retros', [RetroController::class, 'index'])->name('retro.index');
 
-        Route::post('/retros/{retro}/columns/{column}/cards', [RetroCardController::class, 'store'])->name('cards.store');
+        
 
         // Affichage de la page de création
         Route::get('retros/create', [RetroController::class, 'create'])->name('retro.create');
@@ -57,6 +57,15 @@ Route::middleware('auth')->group(function () {
 
         // Affichage du Kanban d’une rétro
         Route::get('retros/{retrospective}', [RetroController::class, 'show'])->name('retro.show');
+
+        
+
+       
+
+        Route::post('/retros/{retro}/columns/{column}/cards', [RetroCardController::class, 'store'])->name('cards.store');
+        Route::post('/cards/{card}/move', [RetroCardController::class, 'move'])->name('cards.move');
+
+
 
 
         // Common life

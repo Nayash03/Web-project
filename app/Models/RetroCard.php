@@ -13,4 +13,18 @@ class RetroCard extends Model
     {
         return $this->belongsTo(RetroColumn::class, 'retro_column_id');
     }
+
+    public function move(Request $request, $cardId)
+    {
+        $request->validate([
+            'column_id' => 'required|exists:retro_columns,id',
+        ]);
+
+        $card = \App\Models\RetroCard::findOrFail($cardId);
+        $card->retro_column_id = $request->input('column_id');
+        $card->save();
+
+        return response()->json(['message' => 'Carte déplacée avec succès']);
+    }
+
 }
