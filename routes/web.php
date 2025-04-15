@@ -11,6 +11,7 @@ use App\Http\Controllers\GroupController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MistralController;
+use App\Http\Controllers\RetroCardController;
 
 // Redirect the root path to /dashboard
 Route::redirect('/', 'dashboard');
@@ -45,6 +46,18 @@ Route::middleware('auth')->group(function () {
 
         // Retro
         route::get('retros', [RetroController::class, 'index'])->name('retro.index');
+
+        Route::post('/retros/{retro}/columns/{column}/cards', [RetroCardController::class, 'store'])->name('cards.store');
+
+        // Affichage de la page de création
+        Route::get('retros/create', [RetroController::class, 'create'])->name('retro.create');
+
+        // Soumission du formulaire
+        Route::post('retros', [RetroController::class, 'store'])->name('retro.store');
+
+        // Affichage du Kanban d’une rétro
+        Route::get('retros/{retrospective}', [RetroController::class, 'show'])->name('retro.show');
+
 
         // Common life
         Route::get('common-life', [CommonLifeController::class, 'index'])->name('common-life.index');
