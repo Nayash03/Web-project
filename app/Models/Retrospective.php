@@ -13,4 +13,9 @@ class Retrospective extends Model
     {
         return $this->hasMany(RetroColumn::class);
     }
+
+    public function cohort()
+    {
+        return $this->belongsTo(Cohort::class);
+    }
 }

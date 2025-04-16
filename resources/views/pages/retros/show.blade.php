@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jkanban@1.2.0/dist/jkanban.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/jkanban@1.2.0/dist/jkanban.min.js"></script>
 
+
+
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const kanban = new jKanban({

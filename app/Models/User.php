@@ -82,6 +82,9 @@ class User extends Authenticatable
             ->withPivot('role')
             ->first();
     }
+
+    
+    
     
     public function hasAdminRole(): bool
     {

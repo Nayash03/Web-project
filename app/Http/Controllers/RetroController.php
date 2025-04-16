@@ -10,6 +10,7 @@ use App\Models\Cohort;
 use App\Models\Retrospective;
 use App\Models\RetroColumn;
 use App\Models\User;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 
 
@@ -20,6 +21,9 @@ class RetroController extends Controller
      *
      * @return Factory|View|Application|object
      */
+
+    use AuthorizesRequests;
+
     public function index() {
 
         if (!auth()->user()->hasAdminRole()) {
@@ -45,6 +49,10 @@ class RetroController extends Controller
 
     public function create()
     {
+        if (!auth()->user()->hasAdminRole()) {
+            return redirect()->route('dashboard')->with('error', 'Seuls les admins peuvent créer une rétrospective.');
+        }
+
         $cohorts = Cohort::all();
         return view('pages.retros.create', compact('cohorts'));
     }
@@ -77,11 +85,26 @@ class RetroController extends Controller
 
 
     public function show($id)
-        {
-            $retro = \App\Models\Retrospective::with('columns.cards')->findOrFail($id);
+    {
+        $retro = \App\Models\Retrospective::with('columns.cards')->findOrFail($id);
 
-            return view('pages.retros.show', compact('retro'));
+        //$retro = Retrospective::findOrFail($id);
+        
+        //$this->authorize('view', $retro); 
+
+        // Vérification si l'utilisateur appartient à la même cohorte
+        $user = auth()->user();
+        $userCohortIds = $user->userSchools->pluck('cohort.id')->filter()->unique();
+
+        if (!$userCohortIds->contains($retro->cohort_id)) {
+            return redirect()->route('dashboard')->with('error', 'Accès non autorisé à cette rétrospective.');
         }
+
+        
+
+        return view('pages.retros.show', compact('retro'));
+    }
+
 
 
 
