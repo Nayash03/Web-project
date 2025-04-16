@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Cohort;
 use App\Models\Retrospective;
 use App\Models\RetroColumn;
+use App\Models\User;
 
 
 
@@ -20,6 +21,25 @@ class RetroController extends Controller
      * @return Factory|View|Application|object
      */
     public function index() {
+
+        if (!auth()->user()->hasAdminRole()) {
+            
+            $user = auth()->user()->load('userSchools.cohort.retrospective');
+            
+            // On récupère la première rétro trouvée dans les promotions de l'utilisateur
+            $retro = collect($user->userSchools)
+                ->map(fn($us) => $us->cohort?->retrospective)
+                ->filter()
+                ->first();
+
+            if ($retro) {
+                //dd($retro);
+                // Rediriger vers la page de la rétro
+                return redirect()->route('retro.show', ['retrospective' => $retro->id]);
+            } 
+        }
+        
+
         return view('pages.retros.index');
     }
 

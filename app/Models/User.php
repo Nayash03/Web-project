@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\UserSchool;
 
 class User extends Authenticatable
 {
@@ -92,6 +93,13 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Groupe::class, 'users_groups');
     }
+
+    // Relation vers users_schools 
+    public function userSchools()
+    {
+        return $this->hasMany(UserSchool::class); 
+    }
+
 
 
 

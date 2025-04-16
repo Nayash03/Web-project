@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Cohort;
+
 
 class UserSchool extends Model
 {
@@ -40,5 +43,8 @@ class UserSchool extends Model
         return $this->belongsTo(School::class);
         
     }
+
+
+
 }
 
