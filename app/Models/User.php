@@ -92,6 +92,12 @@ class User extends Authenticatable
         return $school && $school->pivot && $school->pivot->role === 'admin'; // return role 'admin'
     }
 
+    public function hasTeacherRole(): bool
+    {
+        $school = $this->school(); // Call function school()
+        return $school && $school->pivot && $school->pivot->role === 'teacher'; // return role 'admin'
+    }
+
     public function groupes()
     {
         return $this->belongsToMany(Groupe::class, 'users_groups');

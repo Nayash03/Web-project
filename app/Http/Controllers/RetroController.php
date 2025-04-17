@@ -96,9 +96,15 @@ class RetroController extends Controller
         $user = auth()->user();
         $userCohortIds = $user->userSchools->pluck('cohort.id')->filter()->unique();
 
-        if (!$userCohortIds->contains($retro->cohort_id)) {
-            return redirect()->route('dashboard')->with('error', 'Accès non autorisé à cette rétrospective.');
+        if (!auth()->user()->hasAdminRole()) {
+            if (!auth()->user()->hasTeacherRole()) {
+                if (!$userCohortIds->contains($retro->cohort_id)) {
+                    return redirect()->route('dashboard')->with('error', 'Accès non autorisé à cette rétrospective.');
+                }
+            }
+            
         }
+        
 
         
 

@@ -47,8 +47,6 @@ Route::middleware('auth')->group(function () {
         // Retro
         route::get('retros', [RetroController::class, 'index'])->name('retro.index');
 
-        
-
         // Affichage de la page de création
         Route::get('retros/create', [RetroController::class, 'create'])->name('retro.create');
 
@@ -61,6 +59,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/retros/{retro}/columns/{column}/cards', [RetroCardController::class, 'store'])->name('cards.store');
 
         Route::post('/cards/{cardId}/move', [RetroCardController::class, 'move'])->name('cards.move');
+
+        Route::put('/cards/{card}', [RetroCardController::class, 'update'])->name('cards.update');
+
 
 
         // Common life

@@ -27,4 +27,7 @@ class RetroCard extends Model
         return response()->json(['message' => 'Carte déplacée avec succès']);
     }
 
+    
+
+
 }
