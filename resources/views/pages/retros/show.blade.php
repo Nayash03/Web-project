@@ -35,8 +35,8 @@
                         body: JSON.stringify({ column_id: newColumnId })
                     })
                     .then(res => res.json())
-                    .then(data => console.log("✅ Carte déplacée :", data))
-                    .catch(err => console.error("❌ Erreur :", err));
+                    .then(data => console.log("Carte déplacée :", data))
+                    .catch(err => console.error("Erreur :", err));
                 },
 
                 boards: [
