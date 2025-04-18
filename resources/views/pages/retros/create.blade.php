@@ -7,14 +7,14 @@
         <form method="POST" action="{{ route('retro.store') }}">
             @csrf
 
-            <!-- Nom de la rétro -->
+            <!-- Name of the retro -->
             <div class="mb-4">
                 <label for="title" class="block font-medium text-gray-700">Titre de la rétro</label>
                 <input type="text" name="title" id="title" required
                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
             </div>
 
-            <!-- Sélection de la promotion -->
+            <!-- Select cohort -->
             <div class="mb-4">
                 <label for="cohort_id" class="block font-medium text-gray-700">Promotion</label>
                 <select name="cohort_id" id="cohort_id" required
@@ -26,7 +26,7 @@
                 </select>
             </div>
 
-            <!-- Colonnes dynamiques -->
+            <!-- Column  -->
             <div class="mb-4">
                 <label class="block font-medium text-gray-700">Colonnes du Kanban</label>
                 <div id="columns-container">

@@ -70,7 +70,7 @@
                 ]
             });
 
-            // 🎯 Édition inline au double-clic
+            
             document.addEventListener('dblclick', function (e) {
                 const cardDiv = e.target.closest('.card-content');
                 if (!cardDiv) return;
@@ -78,18 +78,18 @@
                 const cardId = cardDiv.dataset.eid;
                 const oldContent = cardDiv.textContent.trim();
 
-                // Crée un champ input pour édition
+                
                 const input = document.createElement('input');
                 input.type = 'text';
                 input.value = oldContent;
                 input.className = 'w-full border p-1 rounded';
 
-                // Remplace le contenu par l'input
+                
                 cardDiv.innerHTML = '';
                 cardDiv.appendChild(input);
                 input.focus();
 
-                // Sauvegarde au ENTER
+               
                 input.addEventListener('keydown', function (event) {
                     if (event.key === 'Enter') {
                         event.preventDefault();
@@ -113,13 +113,13 @@
                             cardDiv.textContent = data.content || newContent;
                         })
                         .catch(err => {
-                            console.error("❌ Erreur :", err);
+                            console.error("Error :", err);
                             cardDiv.textContent = oldContent;
                         });
                     }
                 });
 
-                // Annule l'édition au blur
+              
                 input.addEventListener('blur', function () {
                     cardDiv.textContent = oldContent;
                 });

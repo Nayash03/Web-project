@@ -8,6 +8,14 @@ use Illuminate\Http\Request;
 
 class RetroCardController extends Controller
 {
+    /**
+     * Store a newly created card in the specified retro column.
+     *
+     * @param Request $request
+     * @param int $retroId
+     * @param int $columnId
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request, $retroId, $columnId)
     {
         $request->validate([
@@ -39,20 +47,24 @@ class RetroCardController extends Controller
         ]);
     }
 
+    /**
+     * Move a card to a different column.
+     *
+     * @param Request $request
+     * @param int $cardId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(Request $request, RetroCard $card)
     {
         $request->validate([
             'content' => 'required|string|max:255',
         ]);
 
-        // Mise à jour du contenu de la carte
+        
         $card->content = $request->input('content');
         $card->save();
 
-        // Retourner la nouvelle valeur du contenu dans une réponse JSON
         return response()->json(['content' => $card->content]);
     }
-
-
 
 }

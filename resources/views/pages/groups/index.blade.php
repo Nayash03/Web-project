@@ -7,13 +7,8 @@
             </span>
         </h1>
 
-
- 
-
-        
         @if(auth()->user()->hasAdminRole())
 
-             
             <form method="POST" action="{{ route('group.generate') }}">
                 @csrf
 
@@ -30,16 +25,6 @@
 
                 <button type="submit">Générer les groupes</button>
             </form>
-
-
-
-
-
-
-
-
-
-            <p>Nombre d'étudiant par groupe :</p>
 
         @endif
 

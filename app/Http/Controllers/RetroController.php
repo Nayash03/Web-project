@@ -30,15 +30,12 @@ class RetroController extends Controller
             
             $user = auth()->user()->load('userSchools.cohort.retrospective');
             
-            // On récupère la première rétro trouvée dans les promotions de l'utilisateur
             $retro = collect($user->userSchools)
                 ->map(fn($us) => $us->cohort?->retrospective)
                 ->filter()
                 ->first();
 
             if ($retro) {
-                //dd($retro);
-                // Rediriger vers la page de la rétro
                 return redirect()->route('retro.show', ['retrospective' => $retro->id]);
             } 
         }
@@ -47,6 +44,10 @@ class RetroController extends Controller
         return view('pages.retros.index');
     }
 
+    /**
+     * Show the form to create a new retrospective.
+     * Only accessible to admins.
+     */
     public function create()
     {
         if (!auth()->user()->hasAdminRole()) {
@@ -57,6 +58,9 @@ class RetroController extends Controller
         return view('pages.retros.create', compact('cohorts'));
     }
 
+    /**
+     * Store a new retrospective and its columns in the database.
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -83,16 +87,14 @@ class RetroController extends Controller
     }
 
 
-
+    /**
+     * Show a specific retrospective by ID with all its columns and cards.
+     * Access is restricted to admins, teachers, or members of the cohort.
+     */
     public function show($id)
     {
         $retro = \App\Models\Retrospective::with('columns.cards')->findOrFail($id);
 
-        //$retro = Retrospective::findOrFail($id);
-        
-        //$this->authorize('view', $retro); 
-
-        // Vérification si l'utilisateur appartient à la même cohorte
         $user = auth()->user();
         $userCohortIds = $user->userSchools->pluck('cohort.id')->filter()->unique();
 
@@ -102,12 +104,7 @@ class RetroController extends Controller
                     return redirect()->route('dashboard')->with('error', 'Accès non autorisé à cette rétrospective.');
                 }
             }
-            
         }
-        
-
-        
-
         return view('pages.retros.show', compact('retro'));
     }
 

@@ -43,7 +43,6 @@ Route::middleware('auth')->group(function () {
         Route::get('groups', [GroupController::class, 'index'])->name('group.index');
         Route::post('/groups/generate', [GroupController::class, 'generate'])->name('group.generate');
 
-
         // Retro
         route::get('retros', [RetroController::class, 'index'])->name('retro.index');
 
@@ -61,8 +60,6 @@ Route::middleware('auth')->group(function () {
         Route::post('/cards/{cardId}/move', [RetroCardController::class, 'move'])->name('cards.move');
 
         Route::put('/cards/{card}', [RetroCardController::class, 'update'])->name('cards.update');
-
-
 
         // Common life
         Route::get('common-life', [CommonLifeController::class, 'index'])->name('common-life.index');

@@ -6,43 +6,7 @@
                 
             </span>
         </h1>
-
-
- 
-
-        
-        @if(auth()->user()->hasAdminRole())
-
-            
-
-            
-        
-             
-            
-
-
-
-
-
-
-
-
-
-            <p>Nombre d'étudiant par groupe :</p>
-
-        @endif
-
-
-
-
-
-
-
-    
-
-
-
-        
+     
 
     </x-slot>
 </x-app-layout>
