@@ -1,4 +1,4 @@
-Coding Tool Box - Avancement du projet
+Coding Tool Box - Avancement du projet (Backlog 3)
 
 Fonctionnalités terminées (Stories 1 & 2) :
 - Création de groupes d'étudiants : L'admin peut créer des groupes homogènes d'étudiants en fonction des bilans de compétence via une IA. Les groupes sont enregistrés en base de données.
